@@ -95,12 +95,12 @@ def install_rpm
     source ::File.join(given_base_url, node['packagecloud']['gpg_key_path'])
     mode '0644'
   end
-
+   base_url_fix=read_token(base_url).to_s
   template "/etc/yum.repos.d/#{filename}.repo" do
     source 'yum.erb'
     cookbook 'packagecloud'
     mode '0644'
-    variables :base_url        => read_token(base_url).to_s,
+    variables :base_url        => base_url,
               :gpg_filename  => gpg_filename,
               :name            => filename,
               :repo_gpgcheck   => 1,
